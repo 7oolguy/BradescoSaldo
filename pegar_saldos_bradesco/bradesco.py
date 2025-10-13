@@ -263,24 +263,26 @@ class BradescoBot:
         wait = WebDriverWait(driver, 15)  # Define um tempo de espera explícito de 15 segundos
 
         try:
-            # Fecha qualquer modal de overlay que possa estar bloqueando a tela
-            wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'jqmOverlay')))
-            driver.find_element(By.CLASS_NAME, 'jqmOverlay').click()
+            try:
+                # Fecha qualquer modal de overlay que possa estar bloqueando a tela
+                wait.until(EC.element_to_be_clickable((By.CLASS_NAME, 'jqmOverlay')))
+                self.driver.find_element(By.CLASS_NAME, 'jqmOverlay').click()
+            except:
+                wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body[1]/div')))
+                self.driver.find_element(By.XPATH, '/html/body[1]/div').click()
         except:
-            print("Erro -> Não foi possível encontrar e fechar o modal de overlay.")
+            pass   # Se não houver modal, continua normalmente
 
         try:
             # Aguarda a visibilidade do elemento de navegação principal
-            wait.until(EC.visibility_of_element_located((By.ID, "_id74_0\\:_id76")))
-
-            # Clica no elemento de menu para expandir as opções
-            driver.find_element(By.ID, "_id74_0\\:_id76").click()
+            wait.until(EC.visibility_of_element_located((By.XPATH, '//*[@id="_id69_0:_id71"]')))
+            self.driver.find_element(By.XPATH, '//*[@id="_id69_0:_id71"]').click()
 
             # Aguarda a visibilidade do iframe que contém o conteúdo principal
             wait.until(EC.visibility_of_element_located((By.XPATH, '//*[@id="paginaCentral"]')))
 
             # Alterna para o iframe correto
-            driver.switch_to.frame(
+            self.driver.switch_to.frame(
                 wait.until(EC.presence_of_element_located((By.XPATH, '//*[@id="paginaCentral"]')))
             )
 
@@ -289,10 +291,11 @@ class BradescoBot:
             EC.visibility_of_element_located(
                 (By.XPATH, '//*[@id="conteudo"]/div[2]/div[2]/div[1]/ul[1]/li[1]/a')
             )
-        )
-            driver.find_element(By.XPATH, f'//*[@id="conteudo"]/div[2]/div[2]/div[1]/ul[1]/li[1]/a' ).click()
+    )
+            self.driver.find_element(By.XPATH, f'//*[@id="conteudo"]/div[2]/div[2]/div[1]/ul[1]/li[1]/a' ).click()
         except Exception as e:
             print(f"ERRO -> Algo deu errado ao navegar para a página -> {e}")
+            raise ValueError("Erro ao acessar a Página.")
 
     def mudar_contas_pelo_select(self, driver: webdriver.Chrome, max_qtd:int = 300)->List[Dict[str, float]]:
         """
