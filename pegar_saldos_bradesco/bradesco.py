@@ -100,9 +100,13 @@ class BradescoBot:
                 driver.get(self.url)  # Abre a URL de login
 
                 # Aguarda até que o elemento do tipo de acesso esteja visível e clica nele
-                wait.until(EC.visibility_of_element_located((By.XPATH, '//*[@id="rdoTipoAcesso02"]')))
-                driver.find_element(By.XPATH, '//*[@id="rdoTipoAcesso02"]').click()
-
+                try:
+                    wait.until(EC.visibility_of_element_located((By.XPATH, '//*[@id="rdoTipoAcesso02"]')))
+                    driver.find_element(By.XPATH, '//*[@id="rdoTipoAcesso02"]').click()
+                except:
+                    print("O Botão para escolher o tipo de acesso não foi encontrado, continuando ...")
+                    pass 
+                
                 # Tentativas de login
                 tentativa = 0
                 tentativa_maxima = 3
