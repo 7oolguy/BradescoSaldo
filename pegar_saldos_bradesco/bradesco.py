@@ -75,7 +75,7 @@ class BradescoBot:
         - headless (bool): Indica se o navegador será iniciado sem interface gráfica (modo headless).
         """
         self.headless = headless
-        self.url = "https://www.ne12.bradesconetempresa.b.br/ibpjlogin/login.jsf"
+        self.url = "https://www.ne2.bradesconetempresa.b.br/ibpjlogin/login.jsf"
         self.usuario = ""  # Nome de usuário para login
         self.senha = ""    # Senha para login
 
